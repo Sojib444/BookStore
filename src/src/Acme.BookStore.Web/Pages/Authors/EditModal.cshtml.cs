@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Acme.BookStore.Authors;
@@ -6,14 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
 namespace Acme.BookStore.Web.Pages.Authors;
-public class EditModalModel : BookStorePageModel
+public class EditModal : BookStorePageModel
 {
     [BindProperty]
     public EditAuthorViewModel Author { get; set; }
 
     private readonly IAuthorAppService _authorAppService;
 
-    public EditModalModel(IAuthorAppService authorAppService)
+    public EditModal(IAuthorAppService authorAppService)
     {
         _authorAppService = authorAppService;
     }
