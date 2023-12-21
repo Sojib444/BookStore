@@ -39,17 +39,13 @@ public class CreateModal : BookStorePageModel
     public async Task<IActionResult> OnPostAsync()
     {
         await _bookAppService.CreateAsync(
-            ObjectMapper.Map<CreateBookViewModel, CreateUpdateBookDto>(Book)
-            );
+            ObjectMapper.Map<CreateBookViewModel, CreateUpdateBookDto>(Book));
+
         return NoContent();
     }
 
     public class CreateBookViewModel
     {
-        [SelectItems(nameof(Authors))]
-        [DisplayName("Author")]
-        public Guid AuthorId { get; set; }
-
         [Required]
         [StringLength(128)]
         public string Name { get; set; }
@@ -63,5 +59,9 @@ public class CreateModal : BookStorePageModel
 
         [Required]
         public float Price { get; set; }
+
+        [SelectItems(nameof(Authors))]
+        [DisplayName("Author")]
+        public Guid AuthorId { get; set; }
     }
 }

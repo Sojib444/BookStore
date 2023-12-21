@@ -2,6 +2,7 @@
 using Acme.BookStore.Books;
 using Acme.BookStore.Web.Pages.Authors;
 using AutoMapper;
+using static Acme.BookStore.Web.Pages.Books.CreateModal;
 using static Acme.BookStore.Web.Pages.Books.EditModal;
 
 namespace Acme.BookStore.Web;
@@ -18,9 +19,9 @@ public class BookStoreWebAutoMapperProfile : Profile
 
         CreateMap<AuthorDto, EditModalModel.EditAuthorViewModel>();
 
-        CreateMap<EditModalModel.EditAuthorViewModel,UpdateAuthorDto>();
+        CreateMap<EditModalModel.EditAuthorViewModel, UpdateAuthorDto>();
 
-        CreateMap<CreateModal.CreateAuthorViewModel, CreateUpdateBookDto>();
+        CreateMap<CreateBookViewModel, CreateUpdateBookDto>();
 
         CreateMap<BookDto, EditBookViewModel>();
 
