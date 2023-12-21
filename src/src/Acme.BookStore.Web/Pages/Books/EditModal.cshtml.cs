@@ -11,24 +11,24 @@ using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap.TagHelpers.Form;
 
 namespace Acme.BookStore.Web.Pages.Books;
 
-public class CreateModal : BookStorePageModel
+public class EditModal : BookStorePageModel
 {
     [BindProperty]
-    public CreateBookViewModel Book { get; set; }
+    public EditBookViewModel Book { get; set; }
 
     public List<SelectListItem> Authors { get; set; }
 
     private readonly IBookAppService _bookAppService;
 
-    public CreateModal(
-        IBookAppService bookAppService)
+    public EditModal(IBookAppService bookAppService)
     {
         _bookAppService = bookAppService;
     }
 
-    public async Task OnGetAsync()
+    public async Task OnGetAsync(Guid id)
     {
-        Book = new CreateBookViewModel();
+        var bookDto = await _bookAppService.GetAsync(id);
+        Book = ObjectMapper.Map<BookDto, EditBookViewModel>(bookDto);
 
         var authorLookup = await _bookAppService.GetAuthorLookupAsync();
         Authors = authorLookup.Items
@@ -38,17 +38,23 @@ public class CreateModal : BookStorePageModel
 
     public async Task<IActionResult> OnPostAsync()
     {
-        await _bookAppService.CreateAsync(
-            ObjectMapper.Map<CreateBookViewModel, CreateUpdateBookDto>(Book));
+        await _bookAppService.UpdateAsync(
+            Book.Id,
+            ObjectMapper.Map<EditBookViewModel, CreateUpdateBookDto>(Book)
+        );
 
         return NoContent();
     }
 
-    public class CreateBookViewModel
+    public class EditBookViewModel
     {
+        [HiddenInput]
+        public Guid Id { get; set; }
+
         [SelectItems(nameof(Authors))]
         [DisplayName("Author")]
         public Guid AuthorId { get; set; }
+
         [Required]
         [StringLength(128)]
         public string Name { get; set; }
